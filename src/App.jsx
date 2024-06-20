@@ -9,7 +9,9 @@ function App() {
   let [activeButton, setActiveButton] = useState();
   const arrayWomen = users.filter((person) => person.gender === "female");
   const arrayMen = users.filter((person) => person.gender != "female");
-  const orderedByName = [users.toSorted(name.last)];
+  const orderedByName = users.toSorted((a, b) =>
+    a.name.last > b.name.last ? 1 : -1
+  );
   return (
     <>
       <button
@@ -20,7 +22,6 @@ function App() {
       >
         All 1
       </button>
-
       <button onClick={() => setActiveButton(2)}>Women 2</button>
       <button onClick={() => setActiveButton(3)}>Men 3</button>
       <button onClick={() => setActiveButton(4)}>by name 4</button>
@@ -47,6 +48,15 @@ function App() {
         {arrayMen.map((man) => (
           <li key={man.login.uuid}>{man.name.first} is a man.</li>
         ))}
+      </ul>
+      <ul>
+        {orderedByName.map((user) => {
+          return (
+            <li key={user.login.uuid}>
+              {user.name.first} {user.name.last}
+            </li>
+          );
+        })}
       </ul>
     </>
   );
